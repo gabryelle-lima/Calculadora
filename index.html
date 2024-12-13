@@ -177,7 +177,7 @@
 
     <h2 id="result"></h2>
     <div class="instructions">
-      <p>Forneça suas marcações de acordo com a jornada de trabalho escolhida. A função calcula o horário de saída para um total de 9h18min trabalhados.</p>
+      <p>Forneça suas marcações de acordo com a jornada de trabalho escolhida. A função disponibilizará o horário de saída considerando o tempo total de 9h18min considerando 2 minutos de deslocamento.</p>
     </div>
   </div>
 
@@ -188,8 +188,13 @@
       const withCoffeeFields = document.getElementById('withCoffeeFields');
 
       // Alterna a visibilidade com base na seleção
-      noCoffeeFields.classList.toggle('hidden', mode !== 'noCoffee');
-      withCoffeeFields.classList.toggle('hidden', mode !== 'withCoffee');
+      if (mode === 'noCoffee') {
+        noCoffeeFields.classList.remove('hidden');
+        withCoffeeFields.classList.add('hidden');
+      } else if (mode === 'withCoffee') {
+        noCoffeeFields.classList.add('hidden');
+        withCoffeeFields.classList.remove('hidden');
+      }
     }
 
     function calculateExitTime() {
@@ -224,8 +229,8 @@
     function displayResult(decimalTime) {
       const hours = Math.floor(decimalTime % 24);
       const minutes = Math.round((decimalTime - Math.floor(decimalTime)) * 60);
-      const formattedTime = ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')};
-      document.getElementById('result').innerText = Horário sugerido de saída: ${formattedTime};
+      const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+      document.getElementById('result').innerText = `Horário sugerido de saída: ${formattedTime}`;
     }
   </script>
 </body>
