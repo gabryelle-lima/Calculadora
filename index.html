@@ -1,0 +1,216 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Ponto</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f4f4f9;
+      text-align: center;
+    }
+
+    .container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    form label {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    input, select, button {
+      margin-top: 10px;
+      padding: 10px;
+      width: 90%;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    button {
+      background: #007bff;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      width: 50%;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 16px;
+      color: #333;
+    }
+
+    .observation {
+      font-size: 12px;
+      color: #666;
+      margin-top: 10px;
+    }
+
+    form div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    form div label,
+    form div input {
+      width: 100%;
+      margin-top: 5px;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 15px;
+      }
+
+      input, select, button {
+        font-size: 12px;
+        width: 95%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Calculadora de Ponto</h1>
+
+    <form id="workHoursForm">
+      <label for="workMode">Selecione o tipo de jornada:</label>
+      <select id="workMode" name="workMode" onchange="toggleFields()">
+        <option value="noCoffee">Quatro marcações</option>
+        <option value="withCoffee">Seis marcações</option>
+      </select>
+
+      <!-- Campos de entrada para 4 marcações -->
+      <div id="noCoffeeFields">
+        <div>
+          <label>Primeira entrada:</label> 
+          <input type="time" id="e1" required>
+        </div>
+        <div>
+          <label>Primeira saída:</label> 
+          <input type="time" id="s1" required>
+        </div>
+        <div>
+          <label>Segunda entrada:</label> 
+          <input type="time" id="e2" required>
+        </div>
+      </div>
+
+      <!-- Campos de entrada para 6 marcações -->
+      <div id="withCoffeeFields" style="display: none;">
+        <div>
+          <label>Primeira entrada:</label> 
+          <input type="time" id="e1_c" required>
+        </div>
+        <div>
+          <label>Saída para café:</label> 
+          <input type="time" id="sc" required>
+        </div>
+        <div>
+          <label>Retorno do café:</label> 
+          <input type="time" id="ec" required>
+        </div>
+        <div>
+          <label>Primeira saída:</label> 
+          <input type="time" id="s1_c" required>
+        </div>
+        <div>
+          <label>Segunda entrada:</label> 
+          <input type="time" id="e2_c" required>
+        </div>
+      </div>
+
+      <button type="button" onclick="calculateExitTime()">Calcular horário de saída</button>
+    </form>
+
+    <h2 id="result"></h2>
+    <div class="observation">
+      <p>HTML em testes. Para sugestões, contatar: <a href="mailto:gabryelle.lima@confianca.com.br">gabryelle.lima@confianca.com.br</a></p>
+    </div>
+  </div>
+
+  <script>
+    // Alterna entre os campos de acordo com a opção selecionada
+    function toggleFields() {
+      const mode = document.getElementById('workMode').value;
+
+      // Exibir campos de quatro ou seis marcações
+      document.getElementById('noCoffeeFields').style.display = (mode === 'noCoffee') ? 'block' : 'none';
+      document.getElementById('withCoffeeFields').style.display = (mode === 'withCoffee') ? 'block' : 'none';
+    }
+
+    // Função para calcular o horário de saída
+    function calculateExitTime() {
+      const mode = document.getElementById('workMode').value;
+      let totalWorked = 0;
+      const limit = 9.3; // 9h18 em formato decimal
+
+      if (mode === 'noCoffee') {
+        const e1 = convertToDecimal(document.getElementById('e1').value);
+        const s1 = convertToDecimal(document.getElementById('s1').value);
+        const e2 = convertToDecimal(document.getElementById('e2').value);
+        totalWorked = s1 - e1;
+        const suggestedExit = e2 + (limit - totalWorked);
+        displayResult(suggestedExit);
+      } else if (mode === 'withCoffee') {
+        const e1 = convertToDecimal(document.getElementById('e1_c').value);
+        const sc = convertToDecimal(document.getElementById('sc').value);
+        const ec = convertToDecimal(document.getElementById('ec').value);
+        const s1 = convertToDecimal(document.getElementById('s1_c').value);
+        const e2 = convertToDecimal(document.getElementById('e2_c').value);
+        totalWorked = (sc - e1) + (s1 - ec);
+        const suggestedExit = e2 + (limit - totalWorked);
+        displayResult(suggestedExit);
+      }
+    }
+
+    // Converte hora:minuto para formato decimal
+    function convertToDecimal(time) {
+      const [hours, minutes] = time.split(':').map(Number);
+      return hours + minutes / 60;
+    }
+
+    // Converte formato decimal para hora:minuto e exibe resultado
+    function displayResult(decimalTime) {
+      const hours = Math.floor(decimalTime % 24);
+      const minutes = Math.round((decimalTime - Math.floor(decimalTime)) * 60);
+      const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+      document.getElementById('result').innerText = `Horário sugerido de saída: ${formattedTime}`;
+    }
+  </script>
+</body>
+</html>
