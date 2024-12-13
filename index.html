@@ -13,12 +13,23 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      background-color: #f4f4f9;
       text-align: center;
+      background: url('IMG_5121.jpeg') no-repeat center center fixed;
+      background-size: cover;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6); /* Fundo escuro transparente */
+      z-index: -1;
     }
 
     .container {
-      background: #fff;
+      background: rgba(255, 255, 255, 0.9); /* Fundo branco translúcido */
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -72,10 +83,11 @@
       color: #333;
     }
 
-    .observation {
-      font-size: 12px;
-      color: #666;
-      margin-top: 10px;
+    .instructions {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #444;
+      text-align: justify;
     }
 
     form div {
@@ -104,6 +116,8 @@
   </style>
 </head>
 <body>
+  <div class="overlay"></div>
+
   <div class="container">
     <h1>Calculadora de Ponto</h1>
 
@@ -117,15 +131,15 @@
       <!-- Campos de entrada para 4 marcações -->
       <div id="noCoffeeFields">
         <div>
-          <label>Primeira entrada:</label> 
+          <label>Primeira entrada:</label>
           <input type="time" id="e1" required>
         </div>
         <div>
-          <label>Primeira saída:</label> 
+          <label>Primeira saída:</label>
           <input type="time" id="s1" required>
         </div>
         <div>
-          <label>Segunda entrada:</label> 
+          <label>Segunda entrada:</label>
           <input type="time" id="e2" required>
         </div>
       </div>
@@ -133,23 +147,23 @@
       <!-- Campos de entrada para 6 marcações -->
       <div id="withCoffeeFields" style="display: none;">
         <div>
-          <label>Primeira entrada:</label> 
+          <label>Primeira entrada:</label>
           <input type="time" id="e1_c" required>
         </div>
         <div>
-          <label>Saída para café:</label> 
+          <label>Saída para café:</label>
           <input type="time" id="sc" required>
         </div>
         <div>
-          <label>Retorno do café:</label> 
+          <label>Retorno do café:</label>
           <input type="time" id="ec" required>
         </div>
         <div>
-          <label>Primeira saída:</label> 
+          <label>Primeira saída:</label>
           <input type="time" id="s1_c" required>
         </div>
         <div>
-          <label>Segunda entrada:</label> 
+          <label>Segunda entrada:</label>
           <input type="time" id="e2_c" required>
         </div>
       </div>
@@ -158,26 +172,22 @@
     </form>
 
     <h2 id="result"></h2>
-    <div class="observation">
-      <p>HTML em testes. Para sugestões, contatar: <a href="mailto:gabryelle.lima@confianca.com.br">gabryelle.lima@confianca.com.br</a></p>
+    <div class="instructions">
+      <p>Forneça suas marcações de acordo com a jornada de trabalho escolhida. A função disponibilizará o horário de saída considerando o tempo de deslocamento de 2 minutos antes do limite.</p>
     </div>
   </div>
 
   <script>
-    // Alterna entre os campos de acordo com a opção selecionada
     function toggleFields() {
       const mode = document.getElementById('workMode').value;
-
-      // Exibir campos de quatro ou seis marcações
       document.getElementById('noCoffeeFields').style.display = (mode === 'noCoffee') ? 'block' : 'none';
       document.getElementById('withCoffeeFields').style.display = (mode === 'withCoffee') ? 'block' : 'none';
     }
 
-    // Função para calcular o horário de saída
     function calculateExitTime() {
       const mode = document.getElementById('workMode').value;
       let totalWorked = 0;
-      const limit = 9.3; // 9h18 em formato decimal
+      const limit = 9.3 - (2 / 60); // Considera 2 minutos de deslocamento antes do limite
 
       if (mode === 'noCoffee') {
         const e1 = convertToDecimal(document.getElementById('e1').value);
@@ -198,13 +208,11 @@
       }
     }
 
-    // Converte hora:minuto para formato decimal
     function convertToDecimal(time) {
       const [hours, minutes] = time.split(':').map(Number);
       return hours + minutes / 60;
     }
 
-    // Converte formato decimal para hora:minuto e exibe resultado
     function displayResult(decimalTime) {
       const hours = Math.floor(decimalTime % 24);
       const minutes = Math.round((decimalTime - Math.floor(decimalTime)) * 60);
