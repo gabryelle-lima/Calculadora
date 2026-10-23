@@ -1,5 +1,6 @@
-export function alarmLink(time, label) {
+export function alarmLink(time, label, iphone = false) {
   if (!/^([01]\d|2[0-3]):[0-5]\d$/.test(time)) throw new Error('Horário de alarme inválido.');
+  if (iphone) return `alarme-iphone.html?horario=${encodeURIComponent(time)}`;
   const [hour, minute] = time.split(':').map(Number);
   const fallback = new URL('alarme.html', globalThis.location.href);
   fallback.searchParams.set('horario', time);

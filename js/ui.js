@@ -13,13 +13,15 @@ export function displayResult(result, config) {
   else if (!result.margemLimiteCompleta) warnings.push('O último retorno já está dentro da margem do limite. Não é possível aplicar toda a antecedência configurada. Confira seu ponto.');
   if (result.jornadaJaCumprida) warnings.push('A jornada já foi cumprida antes do último retorno. A saída exibida é o horário desse retorno.');
   const android = /Android/i.test(navigator.userAgent);
-  const alarm = (time, label) => android ? `<a class="alarm-button" href="${alarmLink(time, label)}">Criar alarme · ${time}</a>` : "";
+  const iphone = /iPhone|iPad|iPod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const alarm = (time, label) => android || iphone ? `<a class="alarm-button" href="${alarmLink(time, label, iphone)}">Criar alarme · ${time}</a>` : "";
   target.innerHTML = `
     <div class="result-label">Saída sugerida · ${config.margem} min de margem</div>
     <div class="result-time">${result.saidaSugerida}</div>
     <div class="day-label">${day(result.diaSaida)}</div>${alarm(result.saidaSugerida, "Hora de sair")}
     <div class="limit"><div class="result-label">${result.limiteJaUltrapassado ? 'Limite já ultrapassado' : 'Limite com extras · com margem'}</div><strong class="result-time">${result.limiteJaUltrapassado ? '—' : result.horarioLimite}</strong><div class="day-label">${day(result.diaLimite)}</div>${result.limiteJaUltrapassado ? "" : alarm(result.horarioLimite, "Limite com extras")}</div>
     ${android ? '<p class="alarm-help">Alarme em teste no Android. Confira o horário e os dias no Relógio. Se não abrir, configure manualmente; nenhum alarme foi confirmado pelo site.</p>' : ""}
+    ${iphone ? '<p class="alarm-help">No iPhone, configure o Atalho uma vez. Toque em Criar alarme para ver as instruções.</p>' : ""}
     ${warnings.map(text => `<p class="warning">${text}</p>`).join('')}`;
 }
 export function hideResult() {

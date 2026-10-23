@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Alarme no iPhone · Jornada</title><link rel="stylesheet" href="assets/css/style.css"><style>main{max-width:600px;padding:30px 24px}h1{font-size:32px;letter-spacing:-1px}p,li{line-height:1.65}li{margin-bottom:14px}.start-alarm{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 20px;border-radius:10px;background:#146554;color:white;text-decoration:none;font-weight:650}summary{cursor:pointer;font-weight:650;padding:18px 0}a:focus-visible{outline:3px solid #448975;outline-offset:4px}</style></head>
+<body><main>
+<h1>Seu alarme de saída</h1>
+<p>Horário escolhido: <strong id="horario"></strong></p>
+<p>Na primeira vez, crie o Atalho abaixo no seu iPhone. Depois, este botão envia o horário para ele.</p>
+<details open><summary>Configurar uma vez</summary><ol>
+<li>Abra o aplicativo <strong>Atalhos</strong>, toque em <strong>+</strong> e dê ao atalho o nome exato <strong>Alarme Jornada</strong>.</li>
+<li>Adicione a ação <strong>Obter Datas da Entrada</strong>. No campo de entrada, selecione a variável <strong>Entrada do Atalho</strong>.</li>
+<li>Adicione a ação <strong>Criar Alarme</strong> do Relógio. No horário, use a variável <strong>Datas</strong> da ação anterior. Como nome, coloque <strong>Hora de sair</strong>.</li>
+<li>Salve o atalho e volte para esta página. Os nomes das ações podem variar conforme a versão do iOS.</li>
+</ol></details>
+<p><a id="executar" class="start-alarm" hidden>Usar Atalho · criar alarme</a></p>
+<p>Se aparecer “Atalho não encontrado”, confira o nome e a configuração acima. O site não recebe confirmação: abra o Relógio para verificar se o alarme foi criado, está ativado e tocará no dia desejado.</p>
+<p>O alarme usa a próxima ocorrência do horário, não a data da sua jornada. Se preferir, crie manualmente no Relógio.</p>
+<p><a href="./">Voltar para a calculadora</a></p>
+<script type="module" src="js/alarme-iphone.js"></script>
+</main></body></html>
