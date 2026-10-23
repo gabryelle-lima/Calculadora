@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#102c32">
   <meta name="description" content="Planeje sua saída com intervalos, hora noturna reduzida e margem de segurança ajustável.">
   <title>Calculadora de jornada</title>
-  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/style.css?v=20261023-1">
 </head>
 <body>
   <header class="topbar">
@@ -41,12 +41,12 @@
             <label><input type="radio" id="quatro-marcacoes" name="modo-jornada" value="quatro" checked><span>4 marcações <small>Um intervalo</small></span></label>
             <label><input type="radio" id="seis-marcacoes" name="modo-jornada" value="seis"><span>6 marcações <small>Dois intervalos</small></span></label>
           </fieldset>
-          <div class="time-row"><span class="marker">1</span><label for="entrada">Entrada<small>Início do trabalho</small></label><input type="time" id="entrada" name="entrada" required></div>
-          <div class="time-row"><span class="marker">2</span><label for="saida-cafe">Saída para intervalo<small>Primeira pausa</small></label><input type="time" id="saida-cafe" name="saida-cafe" required></div>
-          <div class="time-row"><span class="marker">3</span><label for="entrada-cafe">Retorno do intervalo<small>Volta ao trabalho</small></label><input type="time" id="entrada-cafe" name="entrada-cafe" required></div>
+          <div class="time-row"><span class="marker">1</span><label for="entrada">Entrada<small>Início do trabalho</small></label><div class="time-control"><input type="time" id="entrada" name="entrada" required aria-describedby="entrada-hint"><small class="time-hint" id="entrada-hint">Toque para definir</small></div></div>
+          <div class="time-row"><span class="marker">2</span><label for="saida-cafe">Saída para intervalo<small>Primeira pausa</small></label><div class="time-control"><input type="time" id="saida-cafe" name="saida-cafe" required aria-describedby="saida-cafe-hint"><small class="time-hint" id="saida-cafe-hint">Toque para definir</small></div></div>
+          <div class="time-row"><span class="marker">3</span><label for="entrada-cafe">Retorno do intervalo<small>Volta ao trabalho</small></label><div class="time-control"><input type="time" id="entrada-cafe" name="entrada-cafe" required aria-describedby="entrada-cafe-hint"><small class="time-hint" id="entrada-cafe-hint">Toque para definir</small></div></div>
           <fieldset id="campoExtra" hidden disabled><legend class="sr-only">Segundo intervalo</legend>
-            <div class="time-row"><span class="marker">4</span><label for="segunda-saida">Saída para intervalo<small>Segunda pausa</small></label><input type="time" id="segunda-saida" name="segunda-saida" required></div>
-            <div class="time-row"><span class="marker">5</span><label for="segunda-entrada">Retorno do intervalo<small>Volta ao trabalho</small></label><input type="time" id="segunda-entrada" name="segunda-entrada" required></div>
+            <div class="time-row"><span class="marker">4</span><label for="segunda-saida">Saída para intervalo<small>Segunda pausa</small></label><div class="time-control"><input type="time" id="segunda-saida" name="segunda-saida" required aria-describedby="segunda-saida-hint"><small class="time-hint" id="segunda-saida-hint">Toque para definir</small></div></div>
+            <div class="time-row"><span class="marker">5</span><label for="segunda-entrada">Retorno do intervalo<small>Volta ao trabalho</small></label><div class="time-control"><input type="time" id="segunda-entrada" name="segunda-entrada" required aria-describedby="segunda-entrada-hint"><small class="time-hint" id="segunda-entrada-hint">Toque para definir</small></div></div>
           </fieldset>
           <div id="mensagemErro" role="alert" hidden></div>
           <div class="actions"><button type="submit" id="calcular">Calcular saída <span aria-hidden="true">→</span></button><button type="reset" id="resetar">Limpar</button></div>
@@ -78,6 +78,6 @@
     </section>
     <footer>Calculadora informativa. Confira seu ponto oficial.</footer>
   </main>
-  <script type="module" src="js/main.js"></script>
+  <script type="module" src="js/main.js?v=20261023-1"></script>
 </body>
 </html>
