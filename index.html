@@ -1,237 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Calculadora de Ponto</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      text-align: center;
-      background: url('IMG_5121.jpeg') no-repeat center center fixed;
-      background-size: cover;
-    }
-
-    .overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.6);
-      z-index: -1;
-    }
-
-    .container {
-      background: rgba(255, 255, 255, 0.9);
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      max-width: 400px;
-      width: 100%;
-    }
-
-    h1 {
-      margin-bottom: 20px;
-      color: #333;
-    }
-
-    form {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    form label {
-      margin-top: 10px;
-      font-size: 14px;
-      color: #555;
-    }
-
-    input, select, button {
-      margin-top: 10px;
-      padding: 10px;
-      width: 90%;
-      font-size: 14px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      box-sizing: border-box;
-      text-align: center;
-    }
-
-    button {
-      background: #007bff;
-      color: #fff;
-      border: none;
-      cursor: pointer;
-      width: 50%;
-    }
-
-    button:hover {
-      background: #0056b3;
-    }
-
-    #result {
-      margin-top: 20px;
-      font-size: 16px;
-      color: #333;
-    }
-
-    .instructions {
-      margin-top: 20px;
-      font-size: 14px;
-      color: #444;
-      text-align: justify;
-    }
-
-    form div {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-    }
-
-    form div label,
-    form div input {
-      width: 100%;
-      margin-top: 5px;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    @media (max-width: 768px) {
-      .container {
-        padding: 15px;
-      }
-
-      input, select, button {
-        font-size: 12px;
-        width: 95%;
-      }
-    }
-  </style>
+  <meta name="theme-color" content="#102c32">
+  <meta name="description" content="Planeje sua saída com intervalos, hora noturna reduzida e margem de segurança ajustável.">
+  <title>Calculadora de jornada</title>
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-  <div class="overlay"></div>
-
-  <div class="container">
-    <h1>Calculadora de Ponto</h1>
-
-    <form id="workHoursForm">
-      <label for="workMode">Selecione o tipo de jornada:</label>
-      <select id="workMode" name="workMode" onchange="toggleFields()">
-        <option value="noCoffee">Quatro marcações</option>
-        <option value="withCoffee">Seis marcações</option>
-      </select>
-
-      <!-- Campos de entrada para 4 marcações -->
-      <div id="noCoffeeFields">
-        <div>
-          <label>Primeira entrada:</label>
-          <input type="time" id="e1" required>
-        </div>
-        <div>
-          <label>Primeira saída:</label>
-          <input type="time" id="s1" required>
-        </div>
-        <div>
-          <label>Segunda entrada:</label>
-          <input type="time" id="e2" required>
-        </div>
-      </div>
-
-      <!-- Campos de entrada para 6 marcações -->
-      <div id="withCoffeeFields" class="hidden">
-        <div>
-          <label>Primeira entrada:</label>
-          <input type="time" id="e1_c" required>
-        </div>
-        <div>
-          <label>Saída para café:</label>
-          <input type="time" id="sc" required>
-        </div>
-        <div>
-          <label>Retorno do café:</label>
-          <input type="time" id="ec" required>
-        </div>
-        <div>
-          <label>Primeira saída:</label>
-          <input type="time" id="s1_c" required>
-        </div>
-        <div>
-          <label>Segunda entrada:</label>
-          <input type="time" id="e2_c" required>
-        </div>
-      </div>
-
-      <button type="button" onclick="calculateExitTime()">Calcular horário de saída</button>
-    </form>
-
-    <h2 id="result"></h2>
-    <div class="instructions">
-      <p>Forneça suas marcações de acordo com a jornada de trabalho escolhida. A função disponibilizará o horário de saída considerando o tempo total de 9h18min e 2 minutos de deslocamento. Atenção: ainda não fornece suporte para escala noturna, não calcula jornada reduzida entre 22h e 5h.</p>
+  <header class="topbar">
+    <a class="brand" href="./"><span class="brand-icon" aria-hidden="true">◷</span> Jornada<span class="brand-dot">.</span></a>
+    <nav aria-label="Links úteis">
+      <a href="https://webapp.confianca.com.br/consultaponto/ponto.aspx" target="_blank" rel="noopener noreferrer">Consulta de ponto ↗</a>
+      <button type="button" id="abrir-configuracoes" aria-controls="configuracoes" aria-expanded="false">Configurações</button>
+      <button type="button" id="abrir-manual" aria-controls="manual" aria-expanded="false">Manual</button>
+    </nav>
+  </header>
+  <main>
+    <section class="intro">
+      <h1>Calcule sua <span>hora de saída.</span></h1>
+    </section>
+          <section id="configuracoes" class="card settings-panel" hidden aria-labelledby="settings-title"><h2 id="settings-title">Regras do cálculo</h2><p class="hint">Ajuste os parâmetros e volte à calculadora.</p>
+            <div class="settings-grid">
+              <label for="jornada">Jornada (minutos)<input form="jornada-form" type="number" id="jornada" min="1" max="960" value="440" required><small>440 min = 7h20</small></label>
+              <label for="extras">Extras (minutos)<input form="jornada-form" type="number" id="extras" min="0" max="360" value="120" required><small>120 min = 2h00</small></label>
+              <label for="margem">Margem (minutos)<input form="jornada-form" type="number" id="margem" min="0" max="30" value="2" required><small>Antecipação da saída</small></label>
+            </div>
+            <label class="check"><input form="jornada-form" type="checkbox" id="noturno" checked> Aplicar hora noturna reduzida entre 22h e 05h</label>
+            <p class="hint">Cada 52min30s trabalhados nessa faixa contam como 60min. Intervalos não contam. Após 05h, o cálculo volta à hora comum.</p>
+            <button type="button" id="voltar-calculadora">Voltar à calculadora</button>
+          </section>
+    <div class="workspace" id="calculadora-panel">
+      <section class="card form-card" aria-labelledby="form-title">
+        <div class="card-heading"><span class="step">01</span><div><h2 id="form-title">Suas marcações</h2></div></div>
+        <form id="jornada-form">
+          <fieldset class="mode"><legend>Tipo de jornada</legend>
+            <label><input type="radio" id="quatro-marcacoes" name="modo-jornada" value="quatro" checked><span>4 marcações <small>Um intervalo</small></span></label>
+            <label><input type="radio" id="seis-marcacoes" name="modo-jornada" value="seis"><span>6 marcações <small>Dois intervalos</small></span></label>
+          </fieldset>
+          <div class="time-row"><span class="marker">1</span><label for="entrada">Entrada<small>Início do trabalho</small></label><input type="time" id="entrada" name="entrada" required></div>
+          <div class="time-row"><span class="marker">2</span><label for="saida-cafe">Saída para intervalo<small>Primeira pausa</small></label><input type="time" id="saida-cafe" name="saida-cafe" required></div>
+          <div class="time-row"><span class="marker">3</span><label for="entrada-cafe">Retorno do intervalo<small>Volta ao trabalho</small></label><input type="time" id="entrada-cafe" name="entrada-cafe" required></div>
+          <fieldset id="campoExtra" hidden disabled><legend class="sr-only">Segundo intervalo</legend>
+            <div class="time-row"><span class="marker">4</span><label for="segunda-saida">Saída para intervalo<small>Segunda pausa</small></label><input type="time" id="segunda-saida" name="segunda-saida" required></div>
+            <div class="time-row"><span class="marker">5</span><label for="segunda-entrada">Retorno do intervalo<small>Volta ao trabalho</small></label><input type="time" id="segunda-entrada" name="segunda-entrada" required></div>
+          </fieldset>
+          <div id="mensagemErro" role="alert" hidden></div>
+          <div class="actions"><button type="submit" id="calcular">Calcular saída <span aria-hidden="true">→</span></button><button type="reset" id="resetar">Limpar</button></div>
+        </form>
+      </section>
+      <aside class="right-column">
+        <section class="card result-card" aria-labelledby="result-title">
+          <div class="card-heading"><span class="step">02</span><div><h2 id="result-title">Seu horário de saída</h2></div></div>
+          <div id="empty-result"><div class="clock-art" aria-hidden="true">◷</div><h3>Tudo no seu tempo.</h3><p>Preencha os horários e clique em Calcular.</p></div>
+          <div id="resultado" role="status" aria-live="polite" aria-atomic="true" hidden></div>
+        </section>
+      </aside>
     </div>
-  </div>
-
-  <script>
-    function toggleFields() {
-      const mode = document.getElementById('workMode').value;
-      const noCoffeeFields = document.getElementById('noCoffeeFields');
-      const withCoffeeFields = document.getElementById('withCoffeeFields');
-
-      // Alterna a visibilidade com base na seleção
-      if (mode === 'noCoffee') {
-        noCoffeeFields.classList.remove('hidden');
-        withCoffeeFields.classList.add('hidden');
-      } else {
-        noCoffeeFields.classList.add('hidden');
-        withCoffeeFields.classList.remove('hidden');
-      }
-    }
-
-    function calculateExitTime() {
-      const mode = document.getElementById('workMode').value;
-      let totalWorked = 0;
-      const limit = 9.3; // 9 horas e 18 minutos
-
-      if (mode === 'noCoffee') {
-        const e1 = convertToDecimal(document.getElementById('e1').value);
-        const s1 = convertToDecimal(document.getElementById('s1').value);
-        const e2 = convertToDecimal(document.getElementById('e2').value);
-        totalWorked = s1 - e1;
-        const suggestedExit = e2 + (limit - totalWorked);
-        displayResult(suggestedExit);
-      } else if (mode === 'withCoffee') {
-        const e1 = convertToDecimal(document.getElementById('e1_c').value);
-        const sc = convertToDecimal(document.getElementById('sc').value);
-        const ec = convertToDecimal(document.getElementById('ec').value);
-        const s1 = convertToDecimal(document.getElementById('s1_c').value);
-        const e2 = convertToDecimal(document.getElementById('e2_c').value);
-        totalWorked = (sc - e1) + (s1 - ec);
-        const suggestedExit = e2 + (limit - totalWorked);
-        displayResult(suggestedExit);
-      }
-    }
-
-    function convertToDecimal(time) {
-      const [hours, minutes] = time.split(':').map(Number);
-      return hours + minutes / 60;
-    }
-
-    function displayResult(decimalTime) {
-      const hours = Math.floor(decimalTime % 24);
-      const minutes = Math.round((decimalTime - Math.floor(decimalTime)) * 60);
-      const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-      document.getElementById('result').innerText = `Horário sugerido de saída: ${formattedTime}`;
-    }
-  </script>
+    <section class="card manual-panel" id="manual" aria-labelledby="manual-title" hidden>
+      <h2 id="manual-title">Manual</h2>
+      <h3>Como calcular</h3>
+      <p>Escolha 4 marcações para um intervalo ou 6 para dois. Preencha os horários na ordem em que aconteceram e clique em Calcular saída.</p>
+      <p>Um horário menor que o anterior é interpretado como o dia seguinte. A indicação de dia seguinte no resultado é relativa ao dia da entrada.</p>
+      <h3>Os dois horários</h3>
+      <p>A saída sugerida considera sua jornada. O limite com extras considera a jornada mais as extras configuradas. Ambos são arredondados para baixo e antecipados pela margem definida em Configurações.</p>
+        <section class="safety-note"><span aria-hidden="true">↙</span><div><h3>Uma margem para sair tranquilo</h3><p id="margin-note">Saídas arredondadas para baixo, com 2 minutos de antecedência. A margem pode deixar saldo negativo; confira seu ponto.</p></div></section>
+        <section class="rules-note"><h3>Como a conta funciona</h3><p>Trabalho diurno + trabalho noturno convertido.<br>As pausas ficam fora da soma.</p><div><span id="rule-jornada">7h20 de jornada</span><span id="rule-extras">Até 2h00 de extras</span></div></section>
+      <h3>Hora noturna e intervalos</h3>
+      <p>Com a conversão ativada, cada 52min30s trabalhados entre 22h e 05h equivalem a 60 minutos de jornada. Frações de hora entram proporcionalmente. Intervalos ficam fora da conta.</p>
+      <p>A versão atual usa hora comum após 05h; não aplica automaticamente a redução à prorrogação noturna. Confira a regra aplicável à sua escala.</p>
+      <h3>Conferência do resultado</h3>
+      <p>A margem e o arredondamento podem deixar saldo abaixo da jornada. O resultado é uma estimativa: confira os registros oficiais de ponto. Se as marcações já tiverem ultrapassado os limites, um alerta aparecerá na calculadora.</p>
+      <button type="button" id="voltar-manual">Voltar à calculadora</button>
+    </section>
+    <footer>Calculadora informativa. Confira seu ponto oficial.</footer>
+  </main>
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>
