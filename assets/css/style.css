@@ -629,3 +629,12 @@ nav button[aria-expanded="true"] { color: #146554; font-weight: 600; }
   #main-nav a:hover, #main-nav button:hover { background: #f0f6f2; }
   #main-nav [aria-current="page"]::after { content: '●'; margin-left: auto; font-size: 7px; color: #277257; }
 }
+
+/* Mantém o seletor nativo de horário legível e fácil de tocar no Safari. */
+.time-control { flex: 0 0 123px; min-width: 0; }
+.time-control input[type=time] { display: block; width: 100%; min-height: 44px; font-size: 16px; color-scheme: light; }
+.time-row .time-hint { margin-top: 4px; font-size: 10px; text-align: center; color: #657779; }
+.time-control input:valid + .time-hint { visibility: hidden; }
+@media (max-width: 390px) {
+  .time-control { flex-basis: 110px; }
+}

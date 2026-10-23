@@ -9,11 +9,16 @@ const manualButton = document.getElementById('abrir-manual');
 const calculatorButton = document.getElementById('abrir-calculadora');
 const menuToggle = document.getElementById('menu-toggle');
 const header = document.querySelector('.topbar');
+const mainNav = document.getElementById('main-nav');
+const mobileMenu = window.matchMedia('(max-width: 760px)');
 function setMenu(open) {
+  mainNav.hidden = mobileMenu.matches && !open;
   header.classList.toggle('menu-open', open);
   menuToggle.setAttribute('aria-expanded', String(open));
   document.getElementById('menu-label').textContent = open ? 'Fechar' : 'Menu';
 }
+setMenu(false);
+mobileMenu.addEventListener('change', () => setMenu(false));
 menuToggle.addEventListener('click', () => setMenu(menuToggle.getAttribute('aria-expanded') !== 'true'));
 document.addEventListener('click', event => { if (!header.contains(event.target)) setMenu(false); });
 document.addEventListener('keydown', event => {
