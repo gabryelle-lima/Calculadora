@@ -54,6 +54,16 @@ nav a{
   text-decoration:none;
   color:#526b6d
 }
+.external-link{
+  display:inline-flex;
+  align-items:center;
+  gap:7px
+}
+.external-link-icon{
+  flex:none;
+  width:17px;
+  height:17px
+}
 nav a:hover{
   text-decoration:underline
 }
