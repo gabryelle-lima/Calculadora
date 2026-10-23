@@ -11,7 +11,9 @@
 <body>
   <header class="topbar">
     <a class="brand" href="./"><span class="brand-icon" aria-hidden="true">◷</span> Jornada<span class="brand-dot">.</span></a>
-    <nav aria-label="Links úteis">
+    <button type="button" id="menu-toggle" class="menu-toggle" aria-controls="main-nav" aria-expanded="false"><span aria-hidden="true">☰</span><span id="menu-label">Menu</span></button>
+    <nav id="main-nav" aria-label="Navegação principal">
+      <button type="button" id="abrir-calculadora" aria-controls="calculadora-panel" aria-current="page">Calculadora</button>
       <a href="https://webapp.confianca.com.br/consultaponto/ponto.aspx" target="_blank" rel="noopener noreferrer">Consulta de ponto ↗</a>
       <button type="button" id="abrir-configuracoes" aria-controls="configuracoes" aria-expanded="false">Configurações</button>
       <button type="button" id="abrir-manual" aria-controls="manual" aria-expanded="false">Manual</button>

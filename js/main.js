@@ -6,7 +6,29 @@ const calculatorPanel = document.getElementById('calculadora-panel');
 const settingsButton = document.getElementById('abrir-configuracoes');
 const manualPanel = document.getElementById('manual');
 const manualButton = document.getElementById('abrir-manual');
+const calculatorButton = document.getElementById('abrir-calculadora');
+const menuToggle = document.getElementById('menu-toggle');
+const header = document.querySelector('.topbar');
+function setMenu(open) {
+  header.classList.toggle('menu-open', open);
+  menuToggle.setAttribute('aria-expanded', String(open));
+  document.getElementById('menu-label').textContent = open ? 'Fechar' : 'Menu';
+}
+menuToggle.addEventListener('click', () => setMenu(menuToggle.getAttribute('aria-expanded') !== 'true'));
+document.addEventListener('click', event => { if (!header.contains(event.target)) setMenu(false); });
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && menuToggle.getAttribute('aria-expanded') === 'true') { setMenu(false); menuToggle.focus(); }
+});
+document.getElementById('main-nav').addEventListener('click', event => {
+  if (event.target.closest('a,button')) setMenu(false);
+});
+calculatorButton.addEventListener('click', () => showPanel('calculator'));
 function showPanel(panel) {
+  setMenu(false);
+  for (const [button, name] of [[calculatorButton, 'calculator'], [settingsButton, 'settings'], [manualButton, 'manual']]) {
+    if (name === panel) button.setAttribute('aria-current', 'page');
+    else button.removeAttribute('aria-current');
+  }
   settingsPanel.hidden = panel !== 'settings';
   manualPanel.hidden = panel !== 'manual';
   calculatorPanel.hidden = panel !== 'calculator';
@@ -16,7 +38,7 @@ function showPanel(panel) {
 settingsButton.addEventListener('click', () => showPanel(settingsPanel.hidden ? 'settings' : 'calculator'));
 manualButton.addEventListener('click', () => showPanel(manualPanel.hidden ? 'manual' : 'calculator'));
 for (const [id, trigger] of [['voltar-calculadora', settingsButton], ['voltar-manual', manualButton]]) {
-  document.getElementById(id).addEventListener('click', () => { showPanel('calculator'); trigger.focus(); });
+  document.getElementById(id).addEventListener('click', () => { showPanel('calculator'); (window.matchMedia('(max-width: 760px)').matches ? menuToggle : trigger).focus(); });
 }
 const value = id => document.getElementById(id).value;
 function getConfig() {
